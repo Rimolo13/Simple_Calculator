@@ -1,0 +1,113 @@
+:root {
+  --main: #1d7e00;
+  --white: #fffffa;
+  --black: #030300;
+  --text_color: var(--white);
+  --background_first_color: color-mix(in srgb, var(--main) 5%, var(--white));
+  --background_second_color: color-mix(in srgb, var(--main) 35%, var(--white));
+  --background_third_color: color-mix(in srgb, var(--main) 65%, var(--white));
+  --interactive_color: color-mix(in srgb, var(--main) 85%, var(--white));
+  --interactive_color_hover: color-mix(in srgb, var(--main) 85%, var(--black));
+  --contrast_color: color-mix(in srgb, var(--main) 95%, var(--black));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background_first_color: color-mix(in srgb, var(--main) 5%, var(--black));
+    --background_second_color: color-mix(in srgb, var(--main) 35%, var(--black));
+    --background_third_color: color-mix(in srgb, var(--main) 65%, var(--black));
+    --interactive_color: color-mix(in srgb, var(--main) 85%, var(--black));
+    --interactive_color_hover: color-mix(in srgb, var(--main) 85%, var(--white));
+    --contrast_color: color-mix(in srgb, var(--main) 95%, var(--white));
+  }
+}
+
+@media (orientation: portrait) {
+  * {
+    font-size: clamp(16px, 0.5rem + 1.5vh, 2rem) !important;
+  }
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  max-width: 100dvw;
+  list-style: none;
+  color: var(--text_color);
+  font-size: clamp(16px, 0.5rem + 1.5vw, 2rem);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder;
+  text-align: center;
+  outline: none;
+  overflow: hidden;
+  user-select: none;
+}
+
+html, body {
+  display: grid;
+  height: 100dvh;
+  width: 100dvw;
+  background: radial-gradient(var(--background_second_color), var(--background_first_color) 100%);
+  justify-items: center;
+  align-items: center;
+}
+
+#ColorChanger {
+  display: grid;
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  justify-self: right;
+  align-self: self-start;
+  margin: 0.5rem;
+  border: none;
+}
+
+#App {
+  display: grid;
+  grid-template-rows: 15% 85%;
+  height: calc(100% - 3rem);
+  width: calc(100% - 3rem);
+}
+
+#OutputSection {
+  display: grid;
+  height: 100%;
+  width: 100%;
+}
+
+#OutputField {
+  text-align: right;
+  background: var(--background_third_color);
+  max-width: calc(95% - 0.2rem);
+  max-height: calc(95% - 0.2rem);
+  width: calc(95% - 0.2rem);
+  padding: 1.25%;
+  margin: 1.25%;
+  border-radius: 0.3rem;
+  border: solid 0.1rem var(--contrast_color);
+}
+
+#InputSection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: 100%;
+  width: 100%;
+}
+
+.inputButton {
+  justify-content: center;
+  align-content: center;
+  max-height: 90%;
+  max-width: 90%;
+  margin: 5%;
+  background-color: var(--interactive_color);
+  border-radius: 0.3rem;
+  border: solid 0.1rem var(--contrast_color);
+  transition: transform 0.137s;
+}
+
+.inputButton:hover {
+  background-color: var(--interactive_color_hover);
+  transform: scale(1.05);
+}
