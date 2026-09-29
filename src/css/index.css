@@ -28,6 +28,12 @@
   }
 }
 
+@media (orientation: landscape) {
+  #App {
+    width: 60vh !important;
+  }
+}
+
 * {
   margin: 0px;
   padding: 0px;

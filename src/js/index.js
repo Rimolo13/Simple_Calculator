@@ -98,7 +98,10 @@ class Calculator {
         try {
             if (/^[0-9+\-*\/%.() ]*$/.test(problem)) {
                 problem = String(Math.round((eval(problem) * 1000)) / 1000);
-                problem = problem.replaceAll(ReplaceListB[0], ReplaceListA[0]);
+                if (navigator.language.split("-")[0] == "de") {
+                    problem = problem.replaceAll(ReplaceListB[0], ReplaceListA[0]);
+                }
+                ;
                 return problem;
             }
             else {
