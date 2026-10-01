@@ -53,6 +53,7 @@ class Calculator {
         Main?.append(InputSection);
         OutputSection?.append(this.OutputField);
         ColorChanger.addEventListener("input", () => this.#changeColor(ColorChanger.value));
+        this.OutputField.addEventListener("input", () => this.#removeError());
         const symbol = [
             { TextContent: "C", Function: this.#clear },
             { TextContent: "<x", Function: this.#removeSymbol },
@@ -79,9 +80,51 @@ class Calculator {
             { TextContent: this.translation[1], Function: this.#addSymbol },
             { TextContent: "=", Function: this.#startCalculation }
         ];
-        for (let i = 0; i < 24; i++) {
+        document.addEventListener("keydown", (event) => {
+            switch (event.key.toLowerCase()) {
+                case "enter":
+                    const ActiveElement = document.activeElement;
+                    if (ActiveElement instanceof HTMLButtonElement) {
+                        return;
+                    }
+                    this.#startCalculation();
+                    break;
+                case "c":
+                    this.#clear();
+                    break;
+                case "backspace":
+                    this.#removeSymbol();
+                    break;
+                case "m":
+                    this.#addOperation("mod");
+                    break;
+                case "p":
+                    this.#addSymbol("pi");
+                    break;
+                case "^^":
+                    const ActiveElement2 = document.activeElement;
+                    if (ActiveElement2 instanceof HTMLInputElement) {
+                        return;
+                    }
+                    this.#addSymbol("^");
+                    break;
+            }
+            for (let i = 2; i < symbol.length; i++) {
+                const ActiveElement = document.activeElement;
+                if (ActiveElement instanceof HTMLInputElement) {
+                    return;
+                }
+                if (event.key == symbol[i]?.TextContent) {
+                    symbol[i]?.Function(symbol[i]?.TextContent);
+                }
+            }
+        });
+        for (let i = 0; i < symbol.length; i++) {
             const NewElement = new Element("button", { textContent: `${symbol[i]?.TextContent}`, className: "inputButton" }).element;
-            NewElement?.addEventListener("click", (event) => symbol[i]?.Function(event.currentTarget?.textContent));
+            NewElement?.addEventListener("click", (event) => {
+                symbol[i]?.Function(event.currentTarget?.textContent);
+                event.currentTarget.blur();
+            });
             InputSection?.append(NewElement);
         }
     };
@@ -93,16 +136,21 @@ class Calculator {
     };
     #addSymbol = (value) => {
         this.OutputField.value = this.OutputField.value + value;
+        this.#removeError();
     };
     #addOperation = (value) => {
         this.OutputField.value = this.OutputField.value + " " + value + " ";
+        this.#removeError();
+    };
+    #removeError = () => {
+        this.OutputField.value = this.OutputField.value.replaceAll(this.translation[0], "");
     };
     #startCalculation = () => {
         this.OutputField.value = this.#calculation(this.OutputField.value);
     };
     #calculation = (problem) => {
-        const ReplaceListA = [",", "%", "π", "^", "mod"];
-        const ReplaceListB = [".", "/100", "3.14159", "**", "%"];
+        const ReplaceListA = [",", "%", "π", "pi", "^", "mod"];
+        const ReplaceListB = [".", "/100", "3.14159", "3.14159", "**", "%"];
         problem = problem.toLowerCase();
         for (let i = 0; i < ReplaceListA.length; i++) {
             problem = problem.replaceAll(ReplaceListA[i], ReplaceListB[i]);
@@ -113,7 +161,6 @@ class Calculator {
                 if (navigator.language.split("-")[0] == "de") {
                     problem = problem.replaceAll(ReplaceListB[0], ReplaceListA[0]);
                 }
-                ;
                 return problem;
             }
             else {

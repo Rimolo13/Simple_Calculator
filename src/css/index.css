@@ -113,6 +113,7 @@ html, body {
   transition: transform 0.137s;
 }
 
+.inputButton:focus,
 .inputButton:hover {
   background-color: var(--interactive_color_hover);
   transform: scale(1.05);
