@@ -7,4 +7,4 @@ A simple calculator as a Web App.
 
 ## Links:
 - Direct Web App: [Open in browser here](https://rimolo13.github.io/Simple_Calculator/)
-- Download HTML file: [Download here](https://github.com/Rimolo13/Simple_Calculator/releases/download/Calculator/Simple_Calculator.html)
+- Download HTML file: [Download here](https://github.com/Rimolo13/Simple_Calculator/releases/download/Calculator_Keyboard/Simple_Calculator.html)
