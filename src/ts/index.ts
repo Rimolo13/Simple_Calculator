@@ -89,9 +89,9 @@ class Calculator {
     ];
 
     document.addEventListener("keydown", (event) => {
+      const ActiveElement = document.activeElement;
       switch(event.key.toLowerCase()) {
         case "enter":
-          const ActiveElement = document.activeElement;
           if (ActiveElement instanceof HTMLButtonElement) {
             return;
           }
@@ -102,24 +102,27 @@ class Calculator {
           this.#clear();
           break;
 
-        case "backspace":
-          this.#removeSymbol();
-          break;
-
-        case "m":
-          this.#addOperation("mod");
-          break;
-
-        case "p":
-          this.#addSymbol("pi");
-          break;
-
-        case "^^":
-          const ActiveElement2 = document.activeElement;
-          if (ActiveElement2 instanceof HTMLInputElement) {
+        default:
+          if (ActiveElement instanceof HTMLInputElement) {
             return;
           }
-          this.#addSymbol("^");
+          switch(event.key.toLowerCase()) {
+            case "backspace":
+              this.#removeSymbol();
+              break;
+
+            case "m":
+              this.#addOperation("mod");
+              break;
+
+            case "p":
+              this.#addSymbol("pi");
+              break;
+
+            case "^^":
+              this.#addSymbol("^");
+              break;
+          }
           break;
       }
 
